@@ -7,7 +7,7 @@ import (
 )
 
 func addEmailToCsv(email string) *RequestError {
-	file, err1 := os.OpenFile("emails.csv", os.O_WRONLY|os.O_APPEND|os.O_RDWR, 0644)
+	file, err1 := os.OpenFile("emails.csv", os.O_APPEND|os.O_RDWR, os.ModePerm)
 	emailArr := []string{email}
 	csvwriter := csv.NewWriter(file)
 	defer file.Close()
@@ -15,7 +15,6 @@ func addEmailToCsv(email string) *RequestError {
 	badRead := RequestError{StatusCode: 500, Err: errors.New("Can not access data base")}
 
 	if err1 == nil {
-		file, _ := os.Open("emails.csv")
 		cvsReader, errorRead := csv.NewReader(file).ReadAll()
 		if errorRead == nil {
 			for i := range cvsReader {
@@ -29,8 +28,6 @@ func addEmailToCsv(email string) *RequestError {
 		}
 		if err2 := csvwriter.Write(emailArr); err2 != nil {
 			return &badRead
-		} else {
-			return &RequestError{500, err2}
 		}
 	} else {
 		file1, err2 := os.Create("emails.csv")
