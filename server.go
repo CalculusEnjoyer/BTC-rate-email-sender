@@ -38,12 +38,14 @@ func addEmail(context *gin.Context) {
 }
 
 func sendAllEmails(context *gin.Context) {
-	failedEmails, _ := sendEmails()
+	failedEmails, err := sendEmails()
 	context.Writer.Header().Set("Content-Type", "text/plain")
 	joinedEmails := strings.Join(failedEmails, " ")
-	if len(failedEmails) == 0 {
+	if failedEmails == nil && err == nil {
 		context.String(200, "Emails have been sent")
-	} else {
+	} else if err == nil {
 		context.String(200, "Failed to send emails to the following addresses: "+joinedEmails)
+	} else {
+		context.String(err.StatusCode, err.Error())
 	}
 }

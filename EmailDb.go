@@ -12,36 +12,24 @@ func addEmailToCsv(email string) *RequestError {
 	csvwriter := csv.NewWriter(file)
 	defer file.Close()
 	defer csvwriter.Flush()
-	badRead := RequestError{StatusCode: 500, Err: errors.New("Can not access data base")}
+	badRead := RequestError{StatusCode: 500, Err: errors.New("can not access data base")}
 
 	if err1 == nil {
-		cvsReader, errorRead := csv.NewReader(file).ReadAll()
-		if errorRead == nil {
-			for i := range cvsReader {
-				if cvsReader[i][0] == email {
-					return &RequestError{
-						StatusCode: 409,
-						Err:        errors.New("This email already exist in database"),
-					}
+		cvsReader, _ := csv.NewReader(file).ReadAll()
+		for i := range cvsReader {
+			if cvsReader[i][0] == email {
+				return &RequestError{
+					StatusCode: 409,
+					Err:        errors.New("this email already exist in database"),
 				}
 			}
 		}
 		if err2 := csvwriter.Write(emailArr); err2 != nil {
 			return &badRead
+		} else {
+			return nil
 		}
 	} else {
-		file1, err2 := os.Create("emails.csv")
-		defer file1.Close()
-		csvwriter1 := csv.NewWriter(file1)
-		defer csvwriter1.Flush()
-		if err2 == nil {
-			if err4 := csvwriter1.Write([]string{"emails"}); err4 != nil {
-				return &badRead
-			}
-			if err3 := csvwriter1.Write(emailArr); err3 != nil {
-				return &badRead
-			}
-		}
+		return &badRead
 	}
-	return nil
 }

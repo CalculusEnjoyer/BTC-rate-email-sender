@@ -3,17 +3,18 @@ package main
 import (
 	"crypto/tls"
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"gopkg.in/gomail.v2"
 	"os"
 )
 
-var senderEmail = "kravchuk883@gmail.com"
-var senderPassword = "hoplay009"
+var senderEmail = "testmyapplication123@outlook.com"
+var senderPassword = "genesis2022"
 var smtpHost = "smtp.office365.com"
 var smtpPort = 587
 
-func sendEmails() ([]string, error) {
+func sendEmails() ([]string, *RequestError) {
 	file, _ := os.Open("emails.csv")
 	csvReader := csv.NewReader(file)
 	emails, errorRead := csvReader.ReadAll()
@@ -22,11 +23,15 @@ func sendEmails() ([]string, error) {
 	rate := fmt.Sprintf("%v", floatRate)
 
 	message := gomail.NewMessage()
-	message.SetHeader("From", "kravchuk883@gmail.com")
+	message.SetHeader("From", senderEmail)
 	message.SetHeader("Subject", "BTC/UAH rate")
 	message.SetBody("text/plain", "Today's BTC/UAH rate is "+rate)
 	domain := gomail.NewDialer(smtpHost, smtpPort, senderEmail, senderPassword)
 	domain.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+
+	if len(emails) == 1 {
+		return nil, &RequestError{StatusCode: 500, Err: errors.New("the email database is empty")}
+	}
 
 	if errorRead == nil {
 		for i := 1; i < len(emails); i++ {
@@ -36,5 +41,12 @@ func sendEmails() ([]string, error) {
 			}
 		}
 	}
-	return failedEmails, nil
+
+	if len(failedEmails) == len(emails)-1 {
+		return failedEmails, &RequestError{StatusCode: 500, Err: errors.New("all emails have not been sent")}
+	} else if len(failedEmails) > 0 {
+		return failedEmails, nil
+	} else {
+		return nil, nil
+	}
 }
