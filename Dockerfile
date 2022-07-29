@@ -4,14 +4,14 @@ ENV GIN_MODE=release
 
 ENV PORT=3004
 
-WORKDIR /go/src/github.com/CalculusEnjoyer/btc-rate-email-sender
+WORKDIR /go/src/github.com/CalculusEnjoyer/test
 
 COPY . .
 
 RUN go mod download
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o /btc-rate-email-sender .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o /test .
 
 EXPOSE $PORT
 
-ENTRYPOINT ["/btc-rate-email-sender"]
+ENTRYPOINT ["/test"]

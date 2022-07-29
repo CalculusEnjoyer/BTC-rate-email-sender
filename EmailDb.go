@@ -29,6 +29,8 @@ func addEmailToCsv(email string) *RequestError {
 		}
 		if err2 := csvwriter.Write(emailArr); err2 != nil {
 			return &badRead
+		} else {
+			return &RequestError{500, err2}
 		}
 	} else {
 		file1, err2 := os.Create("emails.csv")
