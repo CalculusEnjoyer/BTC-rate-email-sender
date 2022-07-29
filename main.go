@@ -1,6 +1,8 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 
@@ -8,5 +10,5 @@ func main() {
 	router.GET("/rate", getBtcUah)
 	router.POST("/subscribe", addEmail)
 	router.POST("/sendEmails", sendAllEmails)
-	router.Run("localhost:8080")
+	router.Run()
 }
