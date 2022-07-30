@@ -4,14 +4,12 @@ ENV GIN_MODE=release
 
 ENV PORT=80
 
-WORKDIR /myapp/test
+WORKDIR /myapp/btc-rate
 
 COPY . .
 
-RUN go mod download
-
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o /test .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o /btc-rate .
 
 EXPOSE $PORT
 
-ENTRYPOINT ["/test"]
+ENTRYPOINT ["/btc-rate"]
