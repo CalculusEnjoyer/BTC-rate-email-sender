@@ -24,5 +24,3 @@ sendEmail.go sends emails to subscribed users. It contains global variables with
 btcRate.go contains function for getting up-to-date BTC/UAH rate using kuna.io API <br />
 <br />
 error.go has RequestError struct that all functions return, so it makes easier to deal with status codes and reasons of errors for server.go.<br />
-
-## Routes

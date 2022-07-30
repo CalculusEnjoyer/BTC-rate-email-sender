@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-// created mailbox info with working smpt for quick testing
+// created mailbox info with working smtp for quick testing
 var senderEmail = "testmyapplication123@outlook.com"
 var senderPassword = "genesis2022"
 var smtpHost = "smtp.office365.com"

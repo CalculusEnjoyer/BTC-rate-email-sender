@@ -16,10 +16,9 @@ func JSON(c *gin.Context, code int, obj interface{}) {
 
 func getBtcUah(context *gin.Context) {
 	if floatRate, err := getBtcUahFloat(); err == nil {
-		JSON(context, 200, floatRate)
+		JSON(context, 200, int(floatRate))
 	} else {
-		context.Writer.Header().Set("Content-Type", "text/plain")
-		context.String(err.StatusCode, err.Error())
+		JSON(context, err.StatusCode, err.Error())
 	}
 }
 
@@ -28,24 +27,22 @@ func addEmail(context *gin.Context) {
 	if err := context.Bind(&email1); err != nil {
 		return
 	} else {
-		context.Writer.Header().Set("Content-Type", "text/plain")
 		if err1 := addEmailToCsv(email1.Email); err1 == nil {
-			context.String(200, "Email has been successfully added")
+			JSON(context, 200, "Email has been successfully added")
 		} else {
-			context.String(err1.StatusCode, err1.Error())
+			JSON(context, err1.StatusCode, err1.Error())
 		}
 	}
 }
 
 func sendAllEmails(context *gin.Context) {
 	failedEmails, err := sendEmails()
-	context.Writer.Header().Set("Content-Type", "text/plain")
 	joinedEmails := strings.Join(failedEmails, " ")
 	if failedEmails == nil && err == nil {
-		context.String(200, "Emails have been sent")
+		JSON(context, 200, "Emails have been sent")
 	} else if err == nil {
-		context.String(200, "Failed to send emails to the following addresses: "+joinedEmails)
+		JSON(context, 200, "Failed to send emails to the following addresses: "+joinedEmails)
 	} else {
-		context.String(err.StatusCode, err.Error())
+		JSON(context, err.StatusCode, err.Error())
 	}
 }
