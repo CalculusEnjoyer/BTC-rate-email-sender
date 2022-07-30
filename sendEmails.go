@@ -10,7 +10,7 @@ import (
 )
 
 // created mailbox info with working smtp for quick testing
-var senderEmail = "testtestmyapp@outlook.com"
+var senderEmail = "kravchuk883@gmail.com"
 var senderPassword = "genesis2022"
 var smtpHost = "smtp.office365.com"
 var smtpPort = 587
