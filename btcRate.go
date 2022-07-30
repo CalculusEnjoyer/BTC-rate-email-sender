@@ -24,6 +24,6 @@ func getBtcUahFloat() (float64, *RequestError) {
 		uahPrice := data["uah"].(float64)
 		return uahPrice, nil
 	} else {
-		return 0, &RequestError{StatusCode: 500, Err: errors.New("can not get BTC/UAH rate")}
+		return 0, &RequestError{StatusCode: 400, Err: errors.New("can not get BTC/UAH rate")}
 	}
 }
