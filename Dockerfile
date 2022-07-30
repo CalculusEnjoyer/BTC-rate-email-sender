@@ -2,9 +2,9 @@ FROM golang:1.17-alpine
 
 ENV GIN_MODE=release
 
-ENV PORT=3004
+ENV PORT=80
 
-WORKDIR /go/src/github.com/CalculusEnjoyer/test
+WORKDIR /myapp/test
 
 COPY . .
 
