@@ -24,3 +24,28 @@ sendEmail.go sends emails to subscribed users. It contains global variables with
 btcRate.go contains function for getting up-to-date BTC/UAH rate using kuna.io API <br />
 <br />
 error.go has RequestError struct that all functions return, so it makes easier to deal with status codes and reasons of errors for server.go.<br />
+
+## Routes
+1. Getting BTC rate<br /> 
+GET http://localhost:8080/rate <br />
+Request example:
+```sh
+curl --request GET 'http://localhost:8080/rate'
+```
+&emsp;&emsp; Response example:<br />
+```json
+909092
+```
+2. Subscribe email<br />
+   POST http://localhost:8080/subscribe <br />
+   Request example:
+```sh
+curl --request POST 'http://localhost:8080/subscribe' \
+--data-urlencode 'email=check@check.com'
+```
+3. Send emails to all emails that are subscribed<br />
+   POST http://localhost:8080/sendEmails <br />
+   Request example:
+```sh
+curl --request POST 'http://localhost:8080/sendEmails'
+```
