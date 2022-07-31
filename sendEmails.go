@@ -15,6 +15,7 @@ var senderPassword = "genesis2022"
 var smtpHost = "smtp.office365.com"
 var smtpPort = 587
 
+// returns failed emails. if all emails fail it returns an error
 func sendEmails() ([]string, *RequestError) {
 	file, _ := os.Open("emails.csv")
 	csvReader := csv.NewReader(file)
